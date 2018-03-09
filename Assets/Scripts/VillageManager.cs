@@ -6,45 +6,45 @@ using UnityEngine.UI;
 
 public enum ProductionType
 {
-    cuivre, bois, charbon, nouriture
+    copper, wood, coal, food
 };
 
 public class VillageManager : MonoBehaviour {
 
     public static VillageManager instance { get; internal set; }
 
-    [Header("Ressouces")]
+    [Header("Resources")]
 
     [SerializeField]
     float maxCapacity = 200;
     public float MaxCapacity { get { return maxCapacity; }}
 
     [SerializeField]
-    float cuivre = 100;
-    public float Cuivre { get { return cuivre; } internal set { cuivre = Mathf.Clamp(value, 0, MaxCapacity); } }
+    float copper = 100;
+    public float Copper { get { return copper; } internal set { copper = Mathf.Clamp(value, 0, MaxCapacity); } }
 
     [SerializeField]
-    float bois = 100;
-    public float Bois { get { return bois; }}
+    float wood = 100;
+    public float Wood { get { return wood; } internal set { wood = Mathf.Clamp(value, 0, MaxCapacity); } }
 
     [SerializeField]
-    float charbon = 100;
-    public float Charbon { get { return charbon; }}
+    float coal = 100;
+    public float Coal { get { return coal; } }
 
     [SerializeField]
-    float nourriture = 100;
-    public float Nourriture { get { return nourriture; }}
+    float food = 100;
+    public float Food { get { return food; } }
 
 
     [SerializeField]
-    List<Batiment> bats;
+    List<Building> bats;
 
 
     [Header("UI")]
     [SerializeField]
-    Image cuivreBar;
+    Image copperBar;
     [SerializeField]
-    Text cuivreText;
+    Text copperText;
 
     // Use this for initialization
     void Start () {
@@ -53,19 +53,40 @@ public class VillageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		foreach(Batiment b in bats)
+
+        food = 0;
+        coal = 0;
+
+        foreach (Building b in bats)
         {
+            //Prod
             switch(b.ProductionType)
             {
-                case ProductionType.cuivre:
-                    Cuivre += b.GetProd(Time.deltaTime);
+                case ProductionType.copper:
+                    Copper += b.GetProd(Time.deltaTime);
+                    break;
+                case ProductionType.wood:
+                    Wood += b.GetProd(Time.deltaTime);
+                    break;
+
+                case ProductionType.food:
+                    food += b.GetProd(1);
+                    break;
+
+                case ProductionType.coal:
+                    coal += b.GetProd(1);
                     break;
             }
+
+            //Costs
+            food -= b.GetFoodComsuption();
+            coal -= b.GetCoalConsumption();
+
         }
 
-        cuivreBar.fillAmount = Mathf.Lerp(cuivreBar.fillAmount, Cuivre / maxCapacity, Time.deltaTime);
+        copperBar.fillAmount = Mathf.Lerp(copperBar.fillAmount, Copper / maxCapacity, Time.deltaTime);
         StringBuilder builder = new StringBuilder();
-        cuivreText.text = builder.Append(Cuivre.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
+        copperText.text = builder.Append(Copper.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
 	}
 }
 
