@@ -35,16 +35,23 @@ public class VillageManager : MonoBehaviour {
     float food = 100;
     public float Food { get { return food; } }
 
+    [Header("Buildings")]
 
     [SerializeField]
-    List<Building> bats;
+    List<Building> buildings;
 
 
     [Header("UI")]
+
     [SerializeField]
     Image copperBar;
     [SerializeField]
     Text copperText;
+
+    [SerializeField]
+    Image woodBar;
+    [SerializeField]
+    Text woodText;
 
     // Use this for initialization
     void Start () {
@@ -57,7 +64,7 @@ public class VillageManager : MonoBehaviour {
         food = 0;
         coal = 0;
 
-        foreach (Building b in bats)
+        foreach (Building b in buildings)
         {
             //Prod
             switch(b.ProductionType)
@@ -84,9 +91,16 @@ public class VillageManager : MonoBehaviour {
 
         }
 
-        copperBar.fillAmount = Mathf.Lerp(copperBar.fillAmount, Copper / maxCapacity, Time.deltaTime);
-        StringBuilder builder = new StringBuilder();
-        copperText.text = builder.Append(Copper.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
+        updateBar(copperBar, copperText, Copper);
+        updateBar(woodBar, woodText, Wood);
 	}
+
+
+    void updateBar(Image bar, Text text, float amount)
+    {
+        bar.fillAmount = Mathf.Lerp(bar.fillAmount, amount / maxCapacity, Time.deltaTime);
+        StringBuilder builder = new StringBuilder();
+        text.text = builder.Append(amount.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
+    }
 }
 
