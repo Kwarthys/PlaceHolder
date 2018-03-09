@@ -53,6 +53,11 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     Text woodText;
 
+    [SerializeField]
+    Text coalText;
+    [SerializeField]
+    Text foodText;
+
     // Use this for initialization
     void Start () {
         instance = this;
@@ -93,6 +98,9 @@ public class VillageManager : MonoBehaviour {
 
         updateBar(copperBar, copperText, Copper);
         updateBar(woodBar, woodText, Wood);
+
+        foodText.text = food.ToString("N0");
+        coalText.text = coal.ToString("N0");
 	}
 
 
