@@ -157,10 +157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 0
+  prodPerSecond: 0
   coalConsumption: 2
   foodConsumption: 2
-  prodPerSecond: 0
   recruitement: 0
+  woodCost: 0
+  copperCost: 0
 --- !u!23 &5879547
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -227,7 +229,7 @@ GameObject:
   - component: {fileID: 143604811}
   - component: {fileID: 143604810}
   m_Layer: 0
-  m_Name: Hangar
+  m_Name: Docks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,10 +260,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 0
+  prodPerSecond: 0
   coalConsumption: 2
   foodConsumption: 2
-  prodPerSecond: 0
   recruitement: 1
+  woodCost: 50
+  copperCost: 25
 --- !u!23 &143604811
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -359,10 +363,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 2
+  prodPerSecond: 12
   coalConsumption: 0
   foodConsumption: 2
-  prodPerSecond: 12
   recruitement: 0
+  woodCost: 0
+  copperCost: 0
 --- !u!23 &168715053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -494,10 +500,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 0
+  prodPerSecond: 1
   coalConsumption: 3
   foodConsumption: 2
-  prodPerSecond: 1
   recruitement: 0
+  woodCost: 0
+  copperCost: 0
 --- !u!23 &391414780
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -959,10 +967,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 1
+  prodPerSecond: 2
   coalConsumption: 1
   foodConsumption: 2
-  prodPerSecond: 2
   recruitement: 0
+  woodCost: 0
+  copperCost: 0
 --- !u!23 &876122657
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1570,10 +1580,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 3
+  prodPerSecond: 10
   coalConsumption: 2
   foodConsumption: 0
-  prodPerSecond: 10
   recruitement: 0
+  woodCost: 0
+  copperCost: 0
 --- !u!23 &1743603043
 MeshRenderer:
   m_ObjectHideFlags: 0

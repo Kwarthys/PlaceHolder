@@ -114,21 +114,19 @@ public class VillageManager : MonoBehaviour {
 
 
 
-    public bool buy(ProductionType resource, int amount)
+    public bool buy(int woodAmount, int copperAmount)
     {
-        switch (resource)
+        if(woodAmount <= Wood)
         {
-            case ProductionType.copper:
-                if (amount <= Copper)
-                {
-                    Copper -= amount;
-                    return true;
-                }
-                return false;
-
-            default:
-                return false;
+            if(copperAmount <= Copper)
+            {
+                Wood -= woodAmount;
+                Copper -= copperAmount;
+                return true;
+            }
         }
+
+        return false;
     }
 }
 
