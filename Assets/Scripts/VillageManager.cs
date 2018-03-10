@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -109,6 +110,25 @@ public class VillageManager : MonoBehaviour {
         bar.fillAmount = Mathf.Lerp(bar.fillAmount, amount / maxCapacity, Time.deltaTime);
         StringBuilder builder = new StringBuilder();
         text.text = builder.Append(amount.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
+    }
+
+
+
+    public bool buy(ProductionType resource, int amount)
+    {
+        switch (resource)
+        {
+            case ProductionType.copper:
+                if (amount <= Copper)
+                {
+                    Copper -= amount;
+                    return true;
+                }
+                return false;
+
+            default:
+                return false;
+        }
     }
 }
 

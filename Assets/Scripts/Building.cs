@@ -18,6 +18,9 @@ public class Building : MonoBehaviour
     [SerializeField]
     float prodPerSecond = 2;
 
+    [SerializeField]
+    bool recruitement = false;
+
     public float GetProd(float time)
     {
         return time * prodPerSecond;
@@ -31,5 +34,13 @@ public class Building : MonoBehaviour
     internal float GetCoalConsumption()
     {
         return coalConsumption;
+    }
+
+    private void OnMouseDown()
+    {
+        if(recruitement)
+        {
+            VillageManager.instance.buy(ProductionType.copper, 20);
+        }
     }
 }
