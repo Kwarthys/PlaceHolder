@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e3373913576757f4aa2eb230232c1777
-timeCreated: 1520692851
+guid: f2caff3d1a200be419b193ec5812594a
+timeCreated: 1520758354
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -14,7 +14,9 @@ ModelImporter:
     400004: Cube
     400006: Lamp
     2000000: Camera
-    2100000: No Name
+    2100000: Material.002
+    2100002: Material.001
+    2100004: Material.003
     2300000: Cube
     3300000: Cube
     4300000: Cube

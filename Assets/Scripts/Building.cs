@@ -29,6 +29,11 @@ public class Building : MonoBehaviour
     [SerializeField]
     int copperCost;
 
+
+    [Header("UI")]
+    [SerializeField]
+    GameObject canvas;
+
     public float GetProd(float time)
     {
         return time * prodPerSecond;
@@ -46,9 +51,37 @@ public class Building : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(canvas != null && !VillageManager.instance.canvasOpened)
+        {
+            canvas.SetActive(true);
+            VillageManager.instance.canvasOpened = true;
+        }
+
+        /*
         if(recruitement)
         {
             VillageManager.instance.buy(woodCost, copperCost);
+        }
+        */
+    }
+
+    public void buyUnit(string unit)
+    {
+        if(unit.Equals("fregate"))
+        {
+            if(VillageManager.instance.buy(50, 40))
+            {
+                Debug.Log("Bought a Fregate 50,40");
+            }
+        }
+    }
+    
+    public void closeCanvas()
+    {
+        if(canvas != null)
+        {
+            canvas.SetActive(false);
+            VillageManager.instance.canvasOpened = false;
         }
     }
 }

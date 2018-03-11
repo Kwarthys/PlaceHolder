@@ -41,6 +41,8 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     List<Building> buildings;
 
+    public bool canvasOpened;
+
 
     [Header("UI")]
 
