@@ -111,16 +111,16 @@ public class VillageManager : MonoBehaviour {
     {
         bar.fillAmount = Mathf.Lerp(bar.fillAmount, amount / maxCapacity, Time.deltaTime);
         StringBuilder builder = new StringBuilder();
-        text.text = builder.Append(amount.ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
+        text.text = builder.Append(Math.Truncate(amount).ToString("N0")).Append(" / ").Append(MaxCapacity.ToString("N0")).ToString();
     }
 
 
 
     public bool buy(int woodAmount, int copperAmount)
     {
-        if(woodAmount <= Wood)
+        if((float)woodAmount <= Wood)
         {
-            if(copperAmount <= Copper)
+            if((float)copperAmount <= Copper)
             {
                 Wood -= woodAmount;
                 Copper -= copperAmount;
