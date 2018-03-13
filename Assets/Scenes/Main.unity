@@ -740,7 +740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 0
-  prodPerSecond: 1
+  prodPerSecond: 20
   coalConsumption: 3
   foodConsumption: 2
   recruitement: 0
@@ -5136,7 +5136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 1
-  prodPerSecond: 2
+  prodPerSecond: 20
   coalConsumption: 1
   foodConsumption: 2
   recruitement: 0

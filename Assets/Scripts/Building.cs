@@ -69,9 +69,9 @@ public class Building : MonoBehaviour
     {
         if(unit.Equals("fregate"))
         {
-            if(VillageManager.instance.buy(50, 40))
+            if(VillageManager.instance.buy(50, 40, ArmyType.frigate))
             {
-                Debug.Log("Bought a Fregate 50,40");
+                //Debug.Log("Bought a Fregate 50,40");
             }
         }
     }

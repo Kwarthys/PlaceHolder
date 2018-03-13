@@ -10,6 +10,12 @@ public enum ProductionType
     copper, wood, coal, food
 };
 
+
+public enum ArmyType
+{
+    N1, frigate, N3, A1, A2, A3, artillery, bomber
+};
+
 public class VillageManager : MonoBehaviour {
 
     public static VillageManager instance { get; internal set; }
@@ -35,6 +41,9 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     float food = 100;
     public float Food { get { return food; } }
+
+    [SerializeField]
+    Dictionary<ArmyType, int> army = new Dictionary<ArmyType, int>();
 
     [Header("Buildings")]
 
@@ -64,7 +73,7 @@ public class VillageManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         instance = this;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -116,19 +125,34 @@ public class VillageManager : MonoBehaviour {
 
 
 
-    public bool buy(int woodAmount, int copperAmount)
+    public bool buy(int woodAmount, int copperAmount, ArmyType unit)
     {
+        bool success = false;
         if((float)woodAmount <= Wood)
         {
             if((float)copperAmount <= Copper)
             {
                 Wood -= woodAmount;
                 Copper -= copperAmount;
-                return true;
+                success = true;
             }
         }
 
-        return false;
+        if(success)
+        {
+            if (army.ContainsKey(unit))
+            {
+                army[unit] += 1;
+            }
+            else
+            {
+                army[unit] = 1;
+            }
+
+            print(unit + " " + army[unit]);
+        }
+
+        return success;
     }
 }
 
