@@ -13,7 +13,7 @@ public enum ProductionType
 
 public enum ArmyType
 {
-    N1, frigate, N3, A1, A2, A3, artillery, bomber
+    galley, frigate, N3, A1, A2, A3, artillery, bomber
 };
 
 public class VillageManager : MonoBehaviour {
@@ -70,6 +70,18 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     Text foodText;
 
+
+    [SerializeField]
+    Image ArmyImageHolder;
+    [SerializeField]
+    GameObject UIUnitPrefab;
+    [SerializeField]
+    Dictionary<ArmyType, GameObject> uiInstanciated = new Dictionary<ArmyType, GameObject>();
+    [SerializeField]
+    int uiOffset = 0;
+    [SerializeField]
+    int uiOffsetStep = 70;
+
     // Use this for initialization
     void Start () {
         instance = this;
@@ -77,6 +89,8 @@ public class VillageManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        refreshArmyUI();
 
         food = 0;
         coal = 0;
@@ -124,6 +138,50 @@ public class VillageManager : MonoBehaviour {
     }
 
 
+    void refreshArmyUI()
+    {
+        if( ArmyImageHolder != null && UIUnitPrefab != null )
+        {
+            foreach(KeyValuePair<ArmyType, int> item in army)
+            {
+                //item.key // item.value
+                if(uiInstanciated.ContainsKey(item.Key))
+                {
+                    if(item.Value > 0)
+                    {
+                        if(uiInstanciated[item.Key] != null)
+                        {
+                            GameObject ui = uiInstanciated[item.Key];
+                            ui.transform.Find("Text").GetComponent<Text>().text = item.Value.ToString();
+                        }
+                        else
+                        {
+                            GameObject ui = Instantiate(UIUnitPrefab, ArmyImageHolder.transform);
+
+                            Vector3 pos = ui.GetComponent<RectTransform>().localPosition;
+                            pos.x += uiOffset;
+                            ui.GetComponent<RectTransform>().localPosition = pos;
+
+                            uiInstanciated[item.Key] = ui;
+                            uiOffset += uiOffsetStep;
+                        }
+                    }
+                    else
+                    {
+                        GameObject ui = uiInstanciated[item.Key];
+                        Destroy(ui);
+                        uiInstanciated[item.Key] = null;
+                        uiOffset -= uiOffsetStep;
+                    }
+                }
+                else
+                {
+                    uiInstanciated[item.Key] = null;
+                }
+            }
+        }
+}
+
 
     public bool buy(int woodAmount, int copperAmount, ArmyType unit)
     {
@@ -148,7 +206,6 @@ public class VillageManager : MonoBehaviour {
             {
                 army[unit] = 1;
             }
-
             print(unit + " " + army[unit]);
         }
 
