@@ -16572,6 +16572,15 @@ MonoBehaviour:
   wood: 10
   coal: 100
   food: 100
+  unitLogos:
+  - {fileID: 21300000, guid: 91ee6739ea8cc284694e41461c5ea5ae, type: 3}
+  - {fileID: 21300000, guid: 1d7d86fdab48ca34d9d97f424a79270d, type: 3}
+  - {fileID: 21300000, guid: c8c0a7582f4899c4b8c6d4a35eed08fa, type: 3}
+  - {fileID: 21300000, guid: aa84f5ad16c89f542bc02dc87f472c22, type: 3}
+  - {fileID: 21300000, guid: 7f054970c3fb9914c879e73e02d63d08, type: 3}
+  - {fileID: 21300000, guid: 39dd323ad94999547a9ba15ed2d9e1fd, type: 3}
+  - {fileID: 21300000, guid: 5383303430344da4e9e13ed167b34549, type: 3}
+  - {fileID: 21300000, guid: e4901185df3574f469311eb3ff272d59, type: 3}
   buildings:
   - {fileID: 5879546}
   - {fileID: 391414779}

@@ -13,7 +13,7 @@ public enum ProductionType
 
 public enum ArmyType
 {
-    galley, frigate, N3, A1, A2, A3, artillery, bomber
+    galley, frigate, destroyer, A1, A2, A3, artillery, bomber
 };
 
 public class VillageManager : MonoBehaviour {
@@ -90,6 +90,16 @@ public class VillageManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         instance = this;
+        //galley, frigate, destroyer, A1, A2, A3, artillery, bomber
+        //Imposing the wanted order
+        army[ArmyType.bomber] = 0;
+        army[ArmyType.artillery] = 0;
+        army[ArmyType.A3] = 0;
+        army[ArmyType.A2] = 0;
+        army[ArmyType.A1] = 0;
+        army[ArmyType.destroyer] = 0;
+        army[ArmyType.frigate] = 0;
+        army[ArmyType.galley] = 0;
     }
 	
 	// Update is called once per frame
@@ -147,6 +157,7 @@ public class VillageManager : MonoBehaviour {
     {
         if( ArmyImageHolder != null && UIUnitPrefab != null )
         {
+            int index = 7;
             foreach(KeyValuePair<ArmyType, int> item in army)
             {
                 //item.key // item.value
@@ -158,6 +169,7 @@ public class VillageManager : MonoBehaviour {
                         {
                             GameObject ui = uiInstanciated[item.Key];
                             ui.transform.Find("Text").GetComponent<Text>().text = item.Value.ToString();
+                            ui.transform.Find("Image").GetComponent<Image>().sprite = unitLogos[index];
                         }
                         else
                         {
@@ -173,16 +185,21 @@ public class VillageManager : MonoBehaviour {
                     }
                     else
                     {
-                        GameObject ui = uiInstanciated[item.Key];
-                        Destroy(ui);
-                        uiInstanciated[item.Key] = null;
-                        uiOffset -= uiOffsetStep;
+                        if (uiInstanciated[item.Key] != null)
+                        {
+                            GameObject ui = uiInstanciated[item.Key];
+                            Destroy(ui);
+                            uiInstanciated[item.Key] = null;
+                            uiOffset -= uiOffsetStep;
+                        }
                     }
                 }
                 else
                 {
                     uiInstanciated[item.Key] = null;
                 }
+
+                index--;
             }
         }
 }
