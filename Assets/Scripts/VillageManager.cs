@@ -45,6 +45,11 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     Dictionary<ArmyType, int> army = new Dictionary<ArmyType, int>();
 
+    [Header("Sprites")]
+
+    [SerializeField]
+    List<Sprite> unitLogos;
+
     [Header("Buildings")]
 
     [SerializeField]
