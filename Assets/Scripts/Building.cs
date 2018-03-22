@@ -20,15 +20,6 @@ public class Building : MonoBehaviour
     [SerializeField]
     float foodConsumption = 2;
 
-    [Header("Purchase")]
-
-    [SerializeField]
-    bool recruitement = false;
-    [SerializeField]
-    int woodCost;
-    [SerializeField]
-    int copperCost;
-
 
     [Header("UI")]
     [SerializeField]
@@ -67,16 +58,31 @@ public class Building : MonoBehaviour
 
     public void buyUnit(string unit)
     {
-        if(unit.Equals("frigate"))
+        //galley, frigate, destroyer, A1, A2, A3, artillery, bomber
+        if (unit.Equals("frigate"))
         {
             if(VillageManager.instance.buy(50, 40, ArmyType.frigate))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
         }
-        else if(unit.Equals("galley"))
+        else if (unit.Equals("galley"))
         {
             if (VillageManager.instance.buy(40, 10, ArmyType.galley))
+            {
+                //Debug.Log("Bought a Fregate 50,40");
+            }
+        }
+        else if (unit.Equals("A1"))
+        {
+            if (VillageManager.instance.buy(100, 100, ArmyType.A1))
+            {
+                //Debug.Log("Bought a Fregate 50,40");
+            }
+        }
+        else if (unit.Equals("A2"))
+        {
+            if (VillageManager.instance.buy(110, 110, ArmyType.A2))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
