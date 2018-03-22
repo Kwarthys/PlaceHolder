@@ -10,10 +10,19 @@ public class ResourceUI : MonoBehaviour {
     Text productionText;
     [SerializeField]
     ProductionType resourceType;
+    [SerializeField]
+    bool bySecond;
 
     // Use this for initialization
     void Update () {
         StringBuilder builder = new StringBuilder();
-        productionText.text = builder.Append("Producing : ").Append(GetComponent<Building>().GetProd(1).ToString("N0")).Append(" ").Append(resourceType.ToString()).ToString();
+        builder.Append("Producing : ").Append(GetComponent<Building>().GetProd(1).ToString("N0")).Append(" ");
+
+        if(bySecond)
+        {
+            builder.Append("/s ");
+        }
+
+        productionText.text = builder.Append(resourceType.ToString()).ToString();
 	}
 }
