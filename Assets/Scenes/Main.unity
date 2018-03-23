@@ -814,8 +814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4dfbba56b835b498d96d2db64fe800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productionType: 0
-  prodPerSecond: 0
+  productionType: 4
+  prodPerSecond: 1
   coalConsumption: 2
   foodConsumption: 2
   canvas: {fileID: 1649423108}
@@ -6666,8 +6666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4dfbba56b835b498d96d2db64fe800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productionType: 0
-  prodPerSecond: 0
+  productionType: 4
+  prodPerSecond: 1
   coalConsumption: 2
   foodConsumption: 2
   canvas: {fileID: 831601244}

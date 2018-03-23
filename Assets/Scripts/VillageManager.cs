@@ -7,20 +7,61 @@ using UnityEngine.UI;
 
 public enum ProductionType
 {
-    copper, wood, coal, food
+    copper, wood, coal, food, groundWorkforce, airWorkforce, siegeWorkforce
 };
 
 
 public enum ArmyType
 {
-    galley, frigate, destroyer, A1, A2, A3, artillery, bomber
+    cutter, frigate, destroyer, A1, A2, A3, artillery, bomber
 };
+
+public class RecruitmentOrder
+{
+    public ArmyType type;
+    public int number;
+
+    public RecruitmentOrder(ArmyType type, int howMany)
+    {
+        this.type = type;
+        this.number = howMany;
+    }
+}
+
+public class UnitKnowledge
+{
+    public Dictionary<ArmyType, int[]> resourcesCosts = new Dictionary<ArmyType, int[]>();
+    public Dictionary<ArmyType, ProductionType> workforceType = new Dictionary<ArmyType, ProductionType>();
+
+    public UnitKnowledge()
+    {
+        resourcesCosts[ArmyType.bomber] = new int[] { 200, 200, 200 };
+        resourcesCosts[ArmyType.artillery] = new int[] { 200, 200, 200 };
+        resourcesCosts[ArmyType.A3] = new int[] { 200, 200, 200 };
+        resourcesCosts[ArmyType.A2] = new int[] { 200, 200, 200 };
+        resourcesCosts[ArmyType.A1] = new int[] { 200, 200, 200 };
+        resourcesCosts[ArmyType.destroyer] = new int[] { 100, 100, 7 };
+        resourcesCosts[ArmyType.frigate] = new int[] { 70, 70, 5 };
+        resourcesCosts[ArmyType.cutter] = new int[] { 50, 10, 1 };
+
+        workforceType[ArmyType.bomber] = ProductionType.siegeWorkforce;
+        workforceType[ArmyType.artillery] = ProductionType.siegeWorkforce;
+        workforceType[ArmyType.A3] = ProductionType.airWorkforce;
+        workforceType[ArmyType.A2] = ProductionType.airWorkforce;
+        workforceType[ArmyType.A1] = ProductionType.airWorkforce;
+        workforceType[ArmyType.destroyer] = ProductionType.groundWorkforce;
+        workforceType[ArmyType.frigate] = ProductionType.groundWorkforce;
+        workforceType[ArmyType.cutter] = ProductionType.groundWorkforce;
+    }
+}
 
 public class VillageManager : MonoBehaviour {
 
     public static VillageManager instance { get; internal set; }
 
     [Header("Resources")]
+
+    private UnitKnowledge knowledge = new UnitKnowledge();
 
     [SerializeField]
     float maxCapacity = 200;
@@ -44,6 +85,9 @@ public class VillageManager : MonoBehaviour {
 
     [SerializeField]
     Dictionary<ArmyType, int> army = new Dictionary<ArmyType, int>();
+
+    [SerializeField]
+    List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
 
     [Header("Sprites")]
 
@@ -99,7 +143,7 @@ public class VillageManager : MonoBehaviour {
         army[ArmyType.A1] = 0;
         army[ArmyType.destroyer] = 0;
         army[ArmyType.frigate] = 0;
-        army[ArmyType.galley] = 0;
+        army[ArmyType.cutter] = 0;
     }
 	
 	// Update is called once per frame
@@ -110,11 +154,17 @@ public class VillageManager : MonoBehaviour {
         food = 0;
         coal = 0;
 
+        float groundWorkforce = 0;
+        float airWorkforce = 0;
+        float siegeWorkforce = 0;
+
         foreach (Building b in buildings)
         {
-            //Prod
-            switch(b.ProductionType)
+
+            //PRODUCTION
+            switch (b.ProductionType)
             {
+                //Resources
                 case ProductionType.copper:
                     Copper += b.GetProd(Time.deltaTime);
                     break;
@@ -129,6 +179,25 @@ public class VillageManager : MonoBehaviour {
                 case ProductionType.coal:
                     coal += b.GetProd(1);
                     break;
+
+                //Army
+                case ProductionType.groundWorkforce:
+                    groundWorkforce += b.GetProd(Time.deltaTime);
+                    break;
+
+                case ProductionType.airWorkforce:
+                    airWorkforce += b.GetProd(Time.deltaTime);
+                    break;
+
+                case ProductionType.siegeWorkforce:
+                    siegeWorkforce += b.GetProd(Time.deltaTime);
+                    break;
+            }
+
+            foreach(RecruitmentOrder o in recruitment)
+            {
+                //DO STUFF HERE
+                //CONSUME WORK FORCE TO BUILD THE ARMY
             }
 
             //Costs
@@ -202,33 +271,39 @@ public class VillageManager : MonoBehaviour {
                 index--;
             }
         }
-}
+    }
 
-
-    public bool buy(int woodAmount, int copperAmount, ArmyType unit)
+    public bool canAfford(ArmyType unit)
     {
-        bool success = false;
-        if((float)woodAmount <= Wood)
+        if ((float)knowledge.resourcesCosts[unit][0] <= Wood)
         {
-            if((float)copperAmount <= Copper)
+            if ((float)knowledge.resourcesCosts[unit][1] <= Copper)
             {
-                Wood -= woodAmount;
-                Copper -= copperAmount;
-                success = true;
+                return true;
             }
         }
 
+        return false;
+    }
+
+    public bool buy(ArmyType unit)
+    {
+
+        float woodAmount = (float)knowledge.resourcesCosts[unit][0];
+        float copperAmount = (float)knowledge.resourcesCosts[unit][1];
+
+        bool success = canAfford(unit);
+
         if(success)
         {
+            Wood -= woodAmount;
+            Copper -= copperAmount;
+
             if (army.ContainsKey(unit))
             {
-                army[unit] += 1;
+                //army[unit] += 1;
+                recruitment.Add(new RecruitmentOrder(unit, 1));
             }
-            else
-            {
-                army[unit] = 1;
-            }
-            print(unit + " " + army[unit]);
         }
 
         return success;

@@ -61,28 +61,28 @@ public class Building : MonoBehaviour
         //galley, frigate, destroyer, A1, A2, A3, artillery, bomber
         if (unit.Equals("frigate"))
         {
-            if(VillageManager.instance.buy(50, 40, ArmyType.frigate))
+            if(VillageManager.instance.buy(ArmyType.frigate))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
         }
         else if (unit.Equals("galley"))
         {
-            if (VillageManager.instance.buy(40, 10, ArmyType.galley))
+            if (VillageManager.instance.buy(ArmyType.cutter))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
         }
         else if (unit.Equals("A1"))
         {
-            if (VillageManager.instance.buy(100, 100, ArmyType.A1))
+            if (VillageManager.instance.buy(ArmyType.A1))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
         }
         else if (unit.Equals("A2"))
         {
-            if (VillageManager.instance.buy(110, 110, ArmyType.A2))
+            if (VillageManager.instance.buy(ArmyType.A2))
             {
                 //Debug.Log("Bought a Fregate 50,40");
             }
