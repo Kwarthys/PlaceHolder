@@ -814,7 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4dfbba56b835b498d96d2db64fe800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productionType: 4
+  productionType: 5
   prodPerSecond: 1
   coalConsumption: 2
   foodConsumption: 2

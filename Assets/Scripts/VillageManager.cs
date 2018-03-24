@@ -58,9 +58,6 @@ public class VillageManager : MonoBehaviour {
     [SerializeField]
     Dictionary<ArmyType, int> army = new Dictionary<ArmyType, int>();
 
-    [SerializeField]
-    List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
-
     [Header("Sprites")]
 
     [SerializeField]
@@ -130,8 +127,12 @@ public class VillageManager : MonoBehaviour {
         float airWorkforce = 0;
         float siegeWorkforce = 0;
 
+        List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
+
         foreach (Building b in buildings)
         {
+
+            recruitment.AddRange(b.recruitment);
 
             //PRODUCTION
             switch (b.ProductionType)
@@ -172,8 +173,6 @@ public class VillageManager : MonoBehaviour {
 
         }
 
-        List<RecruitmentOrder> toRemove = new List<RecruitmentOrder>();
-
         Debug.Log(recruitment.Count);
 
         foreach (RecruitmentOrder o in recruitment)
@@ -199,13 +198,13 @@ public class VillageManager : MonoBehaviour {
 
             while(o.jobDone - UnitKnowledge.resourcesCosts[o.type][2] >= 0)
             {
+                if (o.number == 0)
+                    break;
+
                 o.jobDone -= UnitKnowledge.resourcesCosts[o.type][2];
                 o.number--;
 
                 addUnit(o.type, 1);
-
-                if (o.number == 0)
-                    break;
             }
 
             if (o.number == 0)
@@ -224,18 +223,12 @@ public class VillageManager : MonoBehaviour {
                         siegeWorkforce += o.jobDone;
                         break;
                 }
-                toRemove.Add(o);
             }
 
             if (groundWorkforce == 0 && airWorkforce == 0 && siegeWorkforce == 0)
             {
                 break;
             }
-        }
-
-        foreach(RecruitmentOrder o in toRemove)
-        {
-            recruitment.Remove(o);
         }
 
         updateBar(copperBar, copperText, Copper);
@@ -339,7 +332,7 @@ public class VillageManager : MonoBehaviour {
             if (army.ContainsKey(unit))
             {
                 //army[unit] += 1;
-                recruitment.Add(new RecruitmentOrder(unit, 1));
+                //recruitment.Add(new RecruitmentOrder(unit, 1));
             }
         }
 

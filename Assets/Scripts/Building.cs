@@ -25,6 +25,9 @@ public class Building : MonoBehaviour
     [SerializeField]
     GameObject canvas;
 
+    [SerializeField]
+    public List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
+
     public float GetProd(float time)
     {
         return time * prodPerSecond;
@@ -47,45 +50,46 @@ public class Building : MonoBehaviour
             canvas.SetActive(true);
             VillageManager.instance.canvasOpened = true;
         }
+    }
 
-        /*
-        if(recruitement)
-        {
-            VillageManager.instance.buy(woodCost, copperCost);
-        }
-        */
+    private void Update()
+    {
+        recruitment.RemoveAll(numberIs0);
+    }
+
+    private static bool numberIs0(RecruitmentOrder o)
+    {
+        return o.number == 0;
     }
 
     public void buyUnit(string unit)
     {
+
+        ArmyType type = ArmyType.cutter;
         //galley, frigate, destroyer, A1, A2, A3, artillery, bomber
         if (unit.Equals("frigate"))
         {
-            if(VillageManager.instance.buy(ArmyType.frigate))
-            {
-                //Debug.Log("Bought a Fregate 50,40");
-            }
+            type = ArmyType.frigate;
         }
         else if (unit.Equals("galley"))
         {
-            if (VillageManager.instance.buy(ArmyType.cutter))
-            {
-                //Debug.Log("Bought a Fregate 50,40");
-            }
+
+            type = ArmyType.cutter;
         }
         else if (unit.Equals("A1"))
         {
-            if (VillageManager.instance.buy(ArmyType.A1))
-            {
-                //Debug.Log("Bought a Fregate 50,40");
-            }
+
+            type = ArmyType.A1;
         }
         else if (unit.Equals("A2"))
         {
-            if (VillageManager.instance.buy(ArmyType.A2))
-            {
-                //Debug.Log("Bought a Fregate 50,40");
-            }
+
+            type = ArmyType.A2;
+        }
+
+        if(VillageManager.instance.buy(type))
+        {
+            recruitment.Add(new RecruitmentOrder(type, 1));
         }
     }
     
