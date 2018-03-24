@@ -20,6 +20,7 @@ public class RecruitmentOrder
 {
     public ArmyType type;
     public int number;
+    public float jobDone = 0;
 
     public RecruitmentOrder(ArmyType type, int howMany)
     {
@@ -42,7 +43,7 @@ public class UnitKnowledge
         resourcesCosts[ArmyType.A1] = new int[] { 200, 200, 200 };
         resourcesCosts[ArmyType.destroyer] = new int[] { 100, 100, 7 };
         resourcesCosts[ArmyType.frigate] = new int[] { 70, 70, 5 };
-        resourcesCosts[ArmyType.cutter] = new int[] { 50, 10, 1 };
+        resourcesCosts[ArmyType.cutter] = new int[] { 50, 10, 2 };
 
         workforceType[ArmyType.bomber] = ProductionType.siegeWorkforce;
         workforceType[ArmyType.artillery] = ProductionType.siegeWorkforce;
@@ -194,16 +195,76 @@ public class VillageManager : MonoBehaviour {
                     break;
             }
 
-            foreach(RecruitmentOrder o in recruitment)
-            {
-                //DO STUFF HERE
-                //CONSUME WORK FORCE TO BUILD THE ARMY
-            }
-
             //Costs
             food -= b.GetFoodComsuption();
             coal -= b.GetCoalConsumption();
 
+        }
+
+        List<RecruitmentOrder> toRemove = new List<RecruitmentOrder>();
+
+        Debug.Log(recruitment.Count);
+
+        foreach (RecruitmentOrder o in recruitment)
+        {
+            //ADD WORK FORCE TO ORDERS
+            switch (knowledge.workforceType[o.type])
+            {
+                case ProductionType.groundWorkforce:
+                    o.jobDone += groundWorkforce;
+                    groundWorkforce = 0;
+                    break;
+
+                case ProductionType.airWorkforce:
+                    o.jobDone += airWorkforce;
+                    airWorkforce = 0;
+                    break;
+
+                case ProductionType.siegeWorkforce:
+                    o.jobDone += siegeWorkforce;
+                    siegeWorkforce = 0;
+                    break;
+            }
+
+            while(o.jobDone - knowledge.resourcesCosts[o.type][2] >= 0)
+            {
+                o.jobDone -= knowledge.resourcesCosts[o.type][2];
+                o.number--;
+
+                addUnit(o.type, 1);
+
+                if (o.number == 0)
+                    break;
+            }
+
+            if (o.number == 0)
+            {
+                switch (knowledge.workforceType[o.type])
+                {
+                    case ProductionType.groundWorkforce:
+                         groundWorkforce += o.jobDone;
+                        break;
+
+                    case ProductionType.airWorkforce:
+                         airWorkforce += o.jobDone;
+                        break;
+
+                    case ProductionType.siegeWorkforce:
+                        siegeWorkforce += o.jobDone;
+                        break;
+                }
+                toRemove.Add(o);
+            }
+
+            if (groundWorkforce == 0 && airWorkforce == 0 && siegeWorkforce == 0)
+            {
+                break;
+            }
+        }
+
+        foreach(RecruitmentOrder o in toRemove)
+        {
+            recruitment.Remove(o);
         }
 
         updateBar(copperBar, copperText, Copper);
@@ -284,6 +345,11 @@ public class VillageManager : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public void addUnit(ArmyType unit, int howMany)
+    {
+        army[unit] += howMany;
     }
 
     public bool buy(ArmyType unit)
