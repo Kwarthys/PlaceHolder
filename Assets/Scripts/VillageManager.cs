@@ -29,40 +29,11 @@ public class RecruitmentOrder
     }
 }
 
-public class UnitKnowledge
-{
-    public Dictionary<ArmyType, int[]> resourcesCosts = new Dictionary<ArmyType, int[]>();
-    public Dictionary<ArmyType, ProductionType> workforceType = new Dictionary<ArmyType, ProductionType>();
-
-    public UnitKnowledge()
-    {
-        resourcesCosts[ArmyType.bomber] = new int[] { 200, 200, 200 };
-        resourcesCosts[ArmyType.artillery] = new int[] { 200, 200, 200 };
-        resourcesCosts[ArmyType.A3] = new int[] { 200, 200, 200 };
-        resourcesCosts[ArmyType.A2] = new int[] { 200, 200, 200 };
-        resourcesCosts[ArmyType.A1] = new int[] { 200, 200, 200 };
-        resourcesCosts[ArmyType.destroyer] = new int[] { 100, 100, 7 };
-        resourcesCosts[ArmyType.frigate] = new int[] { 70, 70, 5 };
-        resourcesCosts[ArmyType.cutter] = new int[] { 50, 10, 2 };
-
-        workforceType[ArmyType.bomber] = ProductionType.siegeWorkforce;
-        workforceType[ArmyType.artillery] = ProductionType.siegeWorkforce;
-        workforceType[ArmyType.A3] = ProductionType.airWorkforce;
-        workforceType[ArmyType.A2] = ProductionType.airWorkforce;
-        workforceType[ArmyType.A1] = ProductionType.airWorkforce;
-        workforceType[ArmyType.destroyer] = ProductionType.groundWorkforce;
-        workforceType[ArmyType.frigate] = ProductionType.groundWorkforce;
-        workforceType[ArmyType.cutter] = ProductionType.groundWorkforce;
-    }
-}
-
 public class VillageManager : MonoBehaviour {
 
     public static VillageManager instance { get; internal set; }
 
     [Header("Resources")]
-
-    private UnitKnowledge knowledge = new UnitKnowledge();
 
     [SerializeField]
     float maxCapacity = 200;
@@ -208,7 +179,7 @@ public class VillageManager : MonoBehaviour {
         foreach (RecruitmentOrder o in recruitment)
         {
             //ADD WORK FORCE TO ORDERS
-            switch (knowledge.workforceType[o.type])
+            switch (UnitKnowledge.workforceType[o.type])
             {
                 case ProductionType.groundWorkforce:
                     o.jobDone += groundWorkforce;
@@ -226,9 +197,9 @@ public class VillageManager : MonoBehaviour {
                     break;
             }
 
-            while(o.jobDone - knowledge.resourcesCosts[o.type][2] >= 0)
+            while(o.jobDone - UnitKnowledge.resourcesCosts[o.type][2] >= 0)
             {
-                o.jobDone -= knowledge.resourcesCosts[o.type][2];
+                o.jobDone -= UnitKnowledge.resourcesCosts[o.type][2];
                 o.number--;
 
                 addUnit(o.type, 1);
@@ -239,7 +210,7 @@ public class VillageManager : MonoBehaviour {
 
             if (o.number == 0)
             {
-                switch (knowledge.workforceType[o.type])
+                switch (UnitKnowledge.workforceType[o.type])
                 {
                     case ProductionType.groundWorkforce:
                          groundWorkforce += o.jobDone;
@@ -336,9 +307,9 @@ public class VillageManager : MonoBehaviour {
 
     public bool canAfford(ArmyType unit)
     {
-        if ((float)knowledge.resourcesCosts[unit][0] <= Wood)
+        if ((float)UnitKnowledge.resourcesCosts[unit][0] <= Wood)
         {
-            if ((float)knowledge.resourcesCosts[unit][1] <= Copper)
+            if ((float)UnitKnowledge.resourcesCosts[unit][1] <= Copper)
             {
                 return true;
             }
@@ -355,8 +326,8 @@ public class VillageManager : MonoBehaviour {
     public bool buy(ArmyType unit)
     {
 
-        float woodAmount = (float)knowledge.resourcesCosts[unit][0];
-        float copperAmount = (float)knowledge.resourcesCosts[unit][1];
+        float woodAmount = (float)UnitKnowledge.resourcesCosts[unit][0];
+        float copperAmount = (float)UnitKnowledge.resourcesCosts[unit][1];
 
         bool success = canAfford(unit);
 
