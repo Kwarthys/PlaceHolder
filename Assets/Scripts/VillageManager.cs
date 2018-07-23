@@ -173,7 +173,7 @@ public class VillageManager : MonoBehaviour {
 
         }
 
-        Debug.Log(recruitment.Count);
+        //Debug.Log(recruitment.Count);
 
         foreach (RecruitmentOrder o in recruitment)
         {
@@ -249,24 +249,52 @@ public class VillageManager : MonoBehaviour {
 
     void refreshArmyUI()
     {
+        int MAX_INDEX = 7;
         if( ArmyImageHolder != null && UIUnitPrefab != null )
         {
-            int index = 7;
+            int index = MAX_INDEX;
+            int usedSlots = 0;
             foreach(KeyValuePair<ArmyType, int> item in army)
             {
-                //item.key // item.value
+                //item.Key // item.Value
                 if(uiInstanciated.ContainsKey(item.Key))
                 {
                     if(item.Value > 0)
                     {
                         if(uiInstanciated[item.Key] != null)
                         {
+                            //Updating the already created item
                             GameObject ui = uiInstanciated[item.Key];
                             ui.transform.Find("Text").GetComponent<Text>().text = item.Value.ToString();
                             ui.transform.Find("Image").GetComponent<Image>().sprite = unitLogos[index];
                         }
                         else
                         {
+                            //Offseting oldones
+
+                            Debug.Log("from " + item.Key + " : " + index + " i - u " + usedSlots);
+
+                            int nOfItemsToOffset = 0;
+                            Debug.Log("bougerbouger" + usedSlots);
+                            nOfItemsToOffset = usedSlots;
+
+                            uiOffset -= usedSlots * uiOffsetStep;
+                            
+                            foreach (KeyValuePair<ArmyType, GameObject> otherUI in uiInstanciated)
+                            {
+                                if (otherUI.Value != null)
+                                {
+                                    if (nOfItemsToOffset > 0)
+                                    {
+                                        Vector3 tmppos = otherUI.Value.GetComponent<RectTransform>().localPosition;
+                                        tmppos.x += uiOffsetStep;
+                                        otherUI.Value.GetComponent<RectTransform>().localPosition = tmppos;                                        
+                                    }
+                                    nOfItemsToOffset--;
+                                }
+                            }
+
+                            //Creating a new item
                             GameObject ui = Instantiate(UIUnitPrefab, ArmyImageHolder.transform);
 
                             Vector3 pos = ui.GetComponent<RectTransform>().localPosition;
@@ -274,8 +302,9 @@ public class VillageManager : MonoBehaviour {
                             ui.GetComponent<RectTransform>().localPosition = pos;
 
                             uiInstanciated[item.Key] = ui;
-                            uiOffset += uiOffsetStep;
+                            uiOffset += uiOffsetStep * (1 + usedSlots);
                         }
+                        usedSlots++;
                     }
                     else
                     {

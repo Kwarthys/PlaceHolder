@@ -474,7 +474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   toRotate: {fileID: 394326186}
   perlinRandom: 0
-  speed: 4
+  speed: -4
 --- !u!1 &46407423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 0
-  prodPerSecond: 20
+  prodPerSecond: 100
   coalConsumption: 3
   foodConsumption: 2
   canvas: {fileID: 565651943}
@@ -9407,7 +9407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   productionType: 1
-  prodPerSecond: 30
+  prodPerSecond: 100
   coalConsumption: 1
   foodConsumption: 2
   canvas: {fileID: 1517581299}
