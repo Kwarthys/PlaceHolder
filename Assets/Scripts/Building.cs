@@ -86,8 +86,18 @@ public class Building : MonoBehaviour
 
             type = ArmyType.A2;
         }
+        else if (unit.Equals("artillery"))
+        {
 
-        if(VillageManager.instance.buy(type))
+            type = ArmyType.artillery;
+        }
+        else if (unit.Equals("bomber"))
+        {
+
+            type = ArmyType.bomber;
+        }
+
+        if (VillageManager.instance.buy(type))
         {
             recruitment.Add(new RecruitmentOrder(type, 1));
         }

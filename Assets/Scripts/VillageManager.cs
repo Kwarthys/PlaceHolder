@@ -116,6 +116,8 @@ public class VillageManager : MonoBehaviour {
         army[ArmyType.destroyer] = 0;
         army[ArmyType.frigate] = 0;
         army[ArmyType.cutter] = 0;
+
+        maxCapacity = RawMaxCapacity;
     }
 	
 	// Update is called once per frame
@@ -129,7 +131,6 @@ public class VillageManager : MonoBehaviour {
         float groundWorkforce = 0;
         float airWorkforce = 0;
         float siegeWorkforce = 0;
-        maxCapacity = rawMaxCapacity;
 
         List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
 
@@ -158,7 +159,7 @@ public class VillageManager : MonoBehaviour {
                     break;
 
                 case ProductionType.storage:
-                    maxCapacity += b.GetProd(1);
+                    maxCapacity = RawMaxCapacity + b.GetProd(1);
                     break;
 
                 //Army
