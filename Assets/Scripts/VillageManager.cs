@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public enum ProductionType
 {
-    copper, wood, coal, food, groundWorkforce, airWorkforce, siegeWorkforce
+    copper, wood, vapor, food, groundWorkforce, airWorkforce, siegeWorkforce, storage
 };
 
 
@@ -36,8 +36,11 @@ public class VillageManager : MonoBehaviour {
     [Header("Resources")]
 
     [SerializeField]
-    float maxCapacity = 200;
-    public float MaxCapacity { get { return maxCapacity; }}
+    float rawMaxCapacity = 100;
+    public float RawMaxCapacity { get { return rawMaxCapacity; }}
+
+    float maxCapacity = 0;
+    public float MaxCapacity { get { return maxCapacity; } }
 
     [SerializeField]
     float copper = 100;
@@ -126,6 +129,7 @@ public class VillageManager : MonoBehaviour {
         float groundWorkforce = 0;
         float airWorkforce = 0;
         float siegeWorkforce = 0;
+        maxCapacity = rawMaxCapacity;
 
         List<RecruitmentOrder> recruitment = new List<RecruitmentOrder>();
 
@@ -149,8 +153,12 @@ public class VillageManager : MonoBehaviour {
                     food += b.GetProd(1);
                     break;
 
-                case ProductionType.coal:
+                case ProductionType.vapor:
                     coal += b.GetProd(1);
+                    break;
+
+                case ProductionType.storage:
+                    maxCapacity += b.GetProd(1);
                     break;
 
                 //Army
@@ -166,12 +174,16 @@ public class VillageManager : MonoBehaviour {
                     siegeWorkforce += b.GetProd(Time.deltaTime);
                     break;
             }
-
             //Costs
             food -= b.GetFoodComsuption();
             coal -= b.GetCoalConsumption();
-
         }
+
+        updateBar(copperBar, copperText, Copper);
+        updateBar(woodBar, woodText, Wood);
+
+        foodText.text = food.ToString("N0");
+        coalText.text = coal.ToString("N0");
 
         //Debug.Log(recruitment.Count);
 
@@ -230,12 +242,6 @@ public class VillageManager : MonoBehaviour {
                 break;
             }
         }
-
-        updateBar(copperBar, copperText, Copper);
-        updateBar(woodBar, woodText, Wood);
-
-        foodText.text = food.ToString("N0");
-        coalText.text = coal.ToString("N0");
 	}
 
 

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     [Header("Production")]
-
+    
     [SerializeField]
     ProductionType productionType;
     public ProductionType ProductionType { get { return productionType; } }
